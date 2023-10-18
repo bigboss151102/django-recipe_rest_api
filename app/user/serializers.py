@@ -1,11 +1,11 @@
 """
 Serializers for user API View
 """
-import attr
 from django.contrib.auth import (
     get_user_model,
     authenticate,
 )
+# Khi gọi hàm gettext, nó sẽ dịch chuỗi văn bản sang ngôn ngữ mục tiêu được cấu hình trong ứng dụng
 from django.utils.translation import gettext as _
 from rest_framework import serializers
 
