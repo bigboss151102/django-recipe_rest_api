@@ -1,6 +1,10 @@
+from decimal import Decimal
+
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 from django.urls import reverse
+
+from core import models
 
 
 class ModelTests(TestCase):
@@ -42,8 +46,20 @@ class ModelTests(TestCase):
             'test@example.com',
             'test123',
         )
-
         self.assertTrue(user.is_superuser)
         self.assertTrue(user.is_staff)
 
-
+    def test_create_recipe(self):
+        """Test creating a recipe is successfull."""
+        user = get_user_model().objects.create_user(
+            'test@example.com',
+            'testpass123',
+        )
+        recipe = models.Recipe.object.create(
+            user=user,
+            title='Sample recipe name',
+            time_minutes=5,
+            price=Decimal('5.50'),
+            description='Sample recipe description.',
+        )
+        self.assertEqual(str(recipe), recipe.title)
