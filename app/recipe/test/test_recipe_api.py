@@ -1,7 +1,6 @@
 """
-Tests for repice APIs
+Tests for recipe APIs.
 """
-
 from decimal import Decimal
 
 from django.contrib.auth import get_user_model
@@ -28,11 +27,9 @@ def create_recipe(user, **params):
         'description': 'Sample description',
         'link': 'http://example.com/recipe.pdf',
     }
-
     defaults.update(params)
 
     recipe = Recipe.objects.create(user=user, **defaults)
-
     return recipe
 
 
@@ -40,19 +37,20 @@ class PublicRecipeAPITests(TestCase):
     """Test unauthenticated API requests."""
 
     def setUp(self):
-        self.client = APIClient
+        self.client = APIClient()
 
     def test_auth_required(self):
-        """Test auth is required to call API"""
+        """Test auth is required to call API."""
         res = self.client.get(RECIPES_URL)
+
         self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
 
 
-class PrivateRecipeApiTest(TestCase):
-    """Test authenticated API request"""
+class PrivateRecipeApiTests(TestCase):
+    """Test authenticated API requests."""
 
     def setUp(self):
-        self.client = APIClient
+        self.client = APIClient()
         self.user = get_user_model().objects.create_user(
             'user@example.com',
             'testpass123',
@@ -77,7 +75,6 @@ class PrivateRecipeApiTest(TestCase):
             'other@example.com',
             'password123',
         )
-
         create_recipe(user=other_user)
         create_recipe(user=self.user)
 
