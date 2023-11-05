@@ -31,8 +31,7 @@ class RecipeSerializer(serializers.ModelSerializer):
         """
         Dòng này loại bỏ trường "tags" khỏi dữ liệu đã xác nhận và lưu vào biến tags.
         """
-        tags = validated_data.pop(
-            'tags', [])
+        tags = validated_data.pop('tags', [])
         recipe = Recipe.objects.create(**validated_data)
         auth_user = self.context['request'].user
         for tag in tags:
